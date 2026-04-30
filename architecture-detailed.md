@@ -14,8 +14,6 @@
 6. [Auto-Scaling Flow (100 → 200 cameras)](#6-auto-scaling-flow)
 7. [Watchdog Reconciliation Loop](#7-watchdog-reconciliation-loop)
 8. [End-to-End Data Flow](#8-end-to-end-data-flow)
-9. [Screen-to-Table Reference](#9-screen-to-table-reference)
-
 ---
 
 ## 1. Frontend — Screen Architecture
@@ -848,23 +846,6 @@ sequenceDiagram
 ```
 
 ---
-
-## 9. Screen-to-Table Reference
-
-| Screen | Primary Table | Related Tables |
-|--------|---------------|----------------|
-| 1-2: Organization List/Details | `organizations` | `sites`, `users`, `cameras`, `alert_rules` |
-| 3-4: Site List/Details | `sites` | `organizations`, `cameras`, `events` |
-| 5-6: Camera List/Details | `cameras` | `sites`, `annotations`, `events`, `camera_health` |
-| 7: Live View + Annotations | `cameras` | `annotations` |
-| 8: Analytics Config | `cameras` | `annotations` |
-| 9-10: Events Explorer/Details | `events` | `organizations`, `sites`, `cameras`, `users` |
-| 11-12: Alert Rules/Wizard | `alert_rules` | `organizations`, `sites`, `cameras` |
-| 13-14: User List/Details | `users` | `organizations` |
-| 15: Dashboard | (aggregated) | `organizations`, `sites`, `cameras`, `events`, `pods` |
-| 16: Audit Logs | `audit_logs` | `users`, `organizations` |
-| 17: System Settings | `system_config` | — |
-| 18: Notification History | `notification_queue` | `events`, `alert_rules` |
 
 ## Component Interaction Summary
 

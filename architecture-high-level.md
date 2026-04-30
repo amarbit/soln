@@ -346,89 +346,7 @@ sequenceDiagram
 
 ---
 
-## 6. Database Relationships
-
-```mermaid
-%%{init: {'theme': 'base', 'themeVariables': { 'fontSize': '13px' }}}%%
-erDiagram
-    organizations ||--o{ sites : "has"
-    organizations ||--o{ users : "has"
-    organizations ||--o{ alert_rules : "has"
-    sites ||--o{ cameras : "has"
-    cameras ||--o{ events : "generates"
-    cameras ||--o{ annotations : "has"
-    cameras ||--o{ camera_health : "monitors"
-    events ||--o{ notification_queue : "triggers"
-    alert_rules ||--o{ notification_queue : "produces"
-    users ||--o{ audit_logs : "creates"
-
-    organizations {
-        uuid id PK
-        string name
-        string tenant_id UK
-        string subscription_tier
-        string contact_email
-        int max_cameras
-        int max_users
-        int retention_days
-        boolean is_active
-    }
-    sites {
-        uuid id PK
-        uuid organization_id FK
-        string name
-        point location
-        string timezone
-        boolean is_active
-    }
-    cameras {
-        uuid id PK
-        uuid site_id FK
-        string camera_id UK
-        string rtsp_url
-        string camera_type
-        string stream_state
-        string assigned_pod
-        json analytics_config
-        boolean is_active
-    }
-    events {
-        uuid id PK
-        uuid camera_id FK
-        string event_type
-        string severity
-        float confidence
-        json metadata
-        timestamp created_at
-    }
-    alert_rules {
-        uuid id PK
-        uuid organization_id FK
-        string name
-        json event_types
-        json notification_channels
-        boolean is_active
-    }
-    notification_queue {
-        uuid id PK
-        uuid event_id FK
-        string channel
-        string status
-        int retry_count
-    }
-    audit_logs {
-        uuid id PK
-        uuid user_id FK
-        string action
-        string entity_type
-        json old_values
-        json new_values
-    }
-```
-
----
-
-## 7. Layer Summary
+## 6. Layer Summary
 
 | Layer | Components | Input | Output |
 |-------|------------|-------|--------|
@@ -438,7 +356,7 @@ erDiagram
 | **Layer 3 — Output** | Kafka, S3, RTMP, Prometheus | Pipeline outputs | Consumer-ready data |
 | **Frontend** | 18 Admin Screens | REST API / WebSocket | User interface |
 
-## 8. Key Design Principles
+## 7. Key Design Principles
 
 | Principle | How It Works |
 |-----------|-------------|
@@ -450,7 +368,7 @@ erDiagram
 | **Location Awareness** | Cameras assigned to geographically closest pods |
 | **Self-Healing** | Components fail independently; system self-recovers via watchdog loop |
 
-## 9. Scaling Parameters
+## 8. Scaling Parameters
 
 | Parameter | Value | Purpose |
 |-----------|-------|---------|
